@@ -1,5 +1,6 @@
 import json
 
+
 def menu():
     print("\n")
     print("*** NOMINA ACME ***")
@@ -73,13 +74,12 @@ def escoger(opcion):
             exit()
     else:
         print("Opción inválida. Intente nuevamente.")
-        input("Presione cualquier tecla para continuar")
 
 def agregar(dicc, ruta):    
     id_empleado = validacion("\nIngrese la id del empleado: ")
 
     for empleados in dicc.keys():
-        if str(id_empleado) == empleados:
+        if id_empleado == empleados:
             return print("Ya existe un empleado con ese ID")
     
     nombre = validacion_t("Ingrese el nombre del empleado: ")
@@ -329,8 +329,7 @@ def cargar_ruta(ruta):
     except:
         with open(ruta, "w") as archivo:
             return dicc
-
-    return dicc
+    
 
 def escribir_en_disco(ruta, dicc):
     with open(ruta, "w") as archivo:
