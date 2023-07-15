@@ -1,4 +1,4 @@
-#{id:{"nombre":'jerson',"compras":{"cantidad":85, 1:{id_producto:{}}}}}
+{id:{"nombre":'jerson',"compras":{"cantidad":8, 1:{id_producto:{}}}}}
 #dicc[id_cliente]["compras"][compras_r] = {}
 
 #import json

@@ -1,8 +1,8 @@
 import json
 
-# dicc = {1:"Lapiz", 2:"Borrador", 3:"Cuaderno", 4:"Lapicero", "Valor":2500}
+dicc2 = {1:"Lapiz", 2:"Borrador", 3:"Cuaderno", 4:"Lapicero", "Valor":2500}
 
-dicc2 = {
+""" dicc2 = {
     "influencers": [
         {
             "name": "Jaxon",
@@ -15,7 +15,7 @@ dicc2 = {
             "work at": "IT Day"
         }
     ]
-}
+} """
 
 with open("12_07_2023/diccionario.json", "w") as archivo:
     # json.dump(dicc, archivo)
