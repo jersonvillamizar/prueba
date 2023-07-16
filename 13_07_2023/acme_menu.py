@@ -47,25 +47,20 @@ def menu():
     print("\n")
     print("*** TIENDA ACME ***")
     print("MENU")
-    print("1- CLIENTES")
-    print("2- PRODUCTOS")
-    print("3- VENTAS")
-    print("4- SALIR")
+    print("1- PRODUCTOS")
+    print("2- VENTAS")
+    print("3- SALIR")
     print("\n")
 
 def escoger(opcion):
     if opcion == 1:
-        print("CLIENTES".center(100,"="))
-        id_cliente = validacion("Ingrese el ID del cliente: ")
-        ingresar_clientes(dicc, id_cliente)
-    elif opcion == 2:
         print("PRODUCTOS".center(100,"="))
         id_cliente = validacion("Ingrese el ID del cliente: ")
         ingresar_productos(dicc, id_cliente)
-    elif opcion == 3:
+    elif opcion == 2:
         print("TOTAL DEL DIA".center(100,"="))
         total_dia(lista)
-    elif opcion == 4:
+    elif opcion == 3:
         print("¡Hasta luego!".center(100,"="))
         salir = validacion_t("Presione cualquier tecla para salir o ingrese 'M' para regresar: ")
         if not salir.lower() == "m":
@@ -86,24 +81,11 @@ def cargar_ruta(ruta):
 def escribir_en_disco(ruta, dicc):
     with open(ruta, "w") as archivo:
         json.dump(dicc, archivo)
-        print("Se ha escrito en disco")
+        print("\nSe ha escrito en disco")
 
     if not archivo.closed:
         print("Cerrando archivo")
         archivo.close()
-
-def ingresar_clientes(dicc, id_cliente):
-    while True:        
-        for llaves in dicc.keys():
-            if llaves == id_cliente:
-                return print("\nYa existe un cliente con ese ID".center(100,"="))   
-        crear_diccionario(dicc, id_cliente)
-        nombre = validacion_t("Ingrese el nombre del cliente: ")
-        dicc[id_cliente]["nombre"] = nombre 
-
-        ciclo_p = validacion_t("\nCualquier tecla para AGREGAR otro cliente, NO para volver al menú: ")
-        if ciclo_p.lower().strip() == "no":
-            return dicc
 
 def ingresar_productos(dicc, id_cliente):
     dicc_productos = {}
@@ -124,13 +106,12 @@ def ingresar_productos(dicc, id_cliente):
         dicc_productos[id_producto]["valor"] = valor 
         dicc_productos[id_producto]["cantidad"] = cantidad 
         dicc_productos[id_producto]["iva"] = iva 
-        
-        ciclo_p = validacion_t("\nCualquier tecla para AGREGAR otro producto, NO para volver al menú: ")
+
+        ciclo_p = validacion_t("\nCualquier tecla para AGREGAR otro producto, NO para imprimir factura: ")
         print("\n")
         print(f"ID cliente: {id_cliente}".center(100, "="))
         if ciclo_p.lower().strip() == "no":
             lista = cargar_ruta(ruta)
-            print(lista)
             if lista:
                 guardar_cantidad = lista[0]
                 guardar_total = lista[1]
@@ -143,14 +124,13 @@ def ingresar_productos(dicc, id_cliente):
                 guardar_iva = 0
 
             for llaves in dicc_productos.keys():
-                id = llaves
-                valor = dicc_productos[id_producto]["valor"] 
-                cantidad = dicc_productos[id_producto]["cantidad"] 
-                iva = dicc_productos[id_producto]["iva"]
+                valor = dicc_productos[llaves]["valor"] 
+                cantidad = dicc_productos[llaves]["cantidad"] 
+                iva = dicc_productos[llaves]["iva"]
                 total = valor * cantidad
                 iva_t = iva*total
                 total2 = total + iva_t
-                print(f"\nProducto: {id}, Valor: {total}, Iva: {iva_t}, TOTAL: {total2}")
+                print(f"\nProducto: {llaves}, Precio*Unidad: {valor}*{cantidad}={total}, Iva: {iva_t:.0f}, TOTAL: {total2:.0f}")
                 guardar_cantidad += cantidad
                 guardar_total += total
                 guardar_total2 += total2
@@ -167,11 +147,11 @@ def total_dia(lista):
     valor_tiva = lista[2]
     print(f"\nCantidad de productos vendidos: {total_vendidos}")
     print(f"Total sin iva: {valor_siniva}")
-    print(f"Valor total del IVA: {valor_iva}")
-    print(f"Valor total productos con iva: {valor_tiva}")
+    print(f"Valor total del IVA: {valor_iva:.0f}")
+    print(f"Valor total productos con iva: {valor_tiva:.0f}")
 
 fecha = date.today()
-ruta = f"13_07_2023\emlacme_{fecha}.json"
+ruta = f"C:/Users/Usuario/Desktop/prueba/13_07_2023/emlacme_{fecha}.json"
 dicc = {}
 while True:
   lista = cargar_ruta(ruta)
