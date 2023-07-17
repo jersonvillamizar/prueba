@@ -1,0 +1,33 @@
+=========== ESTUDIANTES ===============
+Ingreso Estudiantes:
+ID 
+NOMBRE
+SEXO
+GRADO
+
+{grado:{id1:{"nombre": nombre, "sexo": sexo}, id2:{"nombre": nombre, "sexo": sexo, notas:{}}}}
+
+Modificar estudantes: 
+Todo excepto el id 
+
+Buscar estudiante.
+
+Eliminar estudiante.
+
+=============== NOTAS =============================
+[ingresar el grupo al cual desea ingresar notas]
+[listará los estudiantes por orden alfabético] 
+[ingresar las notas de dicho estudiantes]
+
+
+
+==============LISTADO===========================
+▪ Listado de notas promedios por grado. Este listado muestra los id,
+nombre y nota promedio de los estudiantes
+▪ Terna de excelencia por grado. El programa mostrará los 5 mejores
+estudiantes de un grado ordenados descendentemente por nota
+promedio . Se muestra el nombre y la nota promedio del estudiante.
+▪ Terma de excelencia del colegio. El programa muestra un listado
+parecido al anterior pero con los 5 mejores estudiantes de todo el
+colegio. En el listado aparece el nombre del estudiante, el grado y su
+nota promedio.

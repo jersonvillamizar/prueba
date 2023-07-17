@@ -32,16 +32,9 @@ def validacion(msg):
             print("-" * 50)
 
 def crear_diccionario(dicc, id_cliente):
-            try:
-                for llaves in dicc.keys():
-                    if llaves == id_cliente:
-                        break
-                    else:
-                        dicc[id_cliente] = {}
-                        break
-                dicc[id_cliente] = {}
-            except:
-                dicc[id_cliente] = {}
+    if not dicc[id_cliente]:
+        dicc[id_cliente] = {}
+
 
 def menu():
     print("\n")

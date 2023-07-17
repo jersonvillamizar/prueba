@@ -1,6 +1,6 @@
 import json
 
-dicc2 = {1:"Lapiz", 2:"Borrador", 3:"Cuaderno", 4:"Lapicero", "Valor":2500}
+dicc2 = {1:"Lapiz", 2:"Borrador", 3:"Cuaderno", 4:"Lapicero", "Valor":2500, 5:{10:1, 20: 2}}
 
 """ dicc2 = {
     "influencers": [

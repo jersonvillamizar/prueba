@@ -1,4 +1,4 @@
-{id:{"nombre":'jerson',"compras":{"cantidad":8, 1:{id_producto:{}}}}}
+#{id:{"nombre":'jerson',"compras":{"cantidad":8, 1:{id_producto:{}}}}}
 #dicc[id_cliente]["compras"][compras_r] = {}
 
 #import json
@@ -117,3 +117,82 @@ def ingresar_clientes(dicc):
 print(dicc)
 ingresar_clientes(dicc)
 print(dicc)"""
+
+"""def condicion(opcion):
+    salir = input("Presione r para salir: ")
+    if salir == "r":
+        opcion = False
+        return opcion 
+    else: 
+        opcion = False
+        return opcion
+opcion = True
+while opcion == True:
+    print("\n")
+    print("SALIDA")
+    opcion = condicion(opcion)"""
+
+"""dicc = {}
+
+grado = "decimo"
+
+def comprobar_dicc(dicc, grado):
+    try:
+        if not dicc[grado]:
+            dicc[grado] = {}
+    except:
+        dicc[grado] = {}
+
+    return dicc"""
+    
+def validacion_f(msg):
+    while True:
+        try:
+            numero = float(input(msg))
+            return numero
+
+        except ValueError:
+            print("-" * 50)
+            print("Solo se permiten numeros enteros o decimales")
+            print("-" * 50)
+        except Exception as e:
+            print("-" * 50)
+            print(f"{e}")
+            print("-" * 50)
+
+dicc = {"undecimo": {"1098": {"nombre": "Pedro", "sexo": "masculino"}, "1097": {"nombre": "Brayan", "sexo": "masculino"}, "nota_promedio": 3.5}, "noveno": {"2112": {"nombre": "Julia", "sexo": "femenino"}, "2212": {"nombre": "Aulia", "sexo": "femenino"}}, "decimo": {"3224": {"nombre": "Kamile", "sexo": "otro"}, "3324": {"nombre": "Ramile", "sexo": "otro"}}}
+
+dicc["undecimo"] = dict(sorted(dicc["undecimo"].items(), key=lambda x: x[1]["nombre"])) #["nombre"], reverse=True))
+
+"""grado = "undecimo"
+
+for estudiantes in dicc[grado].keys():
+                dicc[grado][estudiantes]["notas"] = {}
+                cantidad_notas = validacion("Ingrese la cantidad N de notas: ")
+                for i in range(1, cantidad_notas+1):
+                    nota = validacion_f(f"Ingrese la nota{i}: ")
+                    dicc[grado][estudiantes]["notas"][f"nota{i}"] = nota"""
+
+
+print(dicc)
+
+# Verificar si un número es de tipo entero
+"""numero = 10
+if isinstance(numero, int):
+    print("Es un número entero")
+else:
+    print("No es un número entero")"""
+
+# Verificar si un objeto es de tipo lista o tupla
+"""objeto = [1, 2, 3]
+if isinstance(objeto, (list, tuple)):
+    print("Es una lista o tupla")
+else:
+    print("No es una lista ni tupla")"""
+
+# Verificar si una cadena es de tipo str
+"""cadena = "Hola"
+if isinstance(cadena, str):
+    print("Es una cadena de texto")
+else:
+    print("No es una cadena de texto")"""
