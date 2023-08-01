@@ -102,6 +102,8 @@ def escoger(opcion):
     else:
         print("Opción inválida. Intente nuevamente.")
 
+#-------------------------------------------------------------------------
+
 def comprobar_dicc(dicc, grado):
     try:
         if not dicc[grado]:
@@ -110,7 +112,9 @@ def comprobar_dicc(dicc, grado):
         dicc[grado] = {}
 
     return dicc
-    
+
+#------------------------------------------
+
 def comprobar_dicc1(dicc, grado, id):
     try:
         for grados in dicc.keys():

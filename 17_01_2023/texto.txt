@@ -1,0 +1,34 @@
+añadir, modificar, eliminar, (borrar y hacer reportes) de las tarjetas de créditos emitidas.
+
+
+TARJETA
+▪ El tipo de tarjeta (Master Card, Visa, Américan Express)
+▪ El número de la tarjeta de crédido
+
+▪ Mes y año de validez
+▪ Código de verificación (número entero de tres dígitos entre 100 y 999)
+▪ Id del cliente del banco dueño de la tarjeta
+
+CLIENTE
+▪ Nombre del cliente
+▪ Cedula de Ciudadanía
+▪ Número de teléfono de contacto
+▪ Sexo
+
+
+{"tipo_tarjeta":{id_tarjerta:{"mes": mes, "año": año, "codigo": codigo, "id_cliente": id_cliente, "reportes":{"reporte1": reporte, "reporte2": reporte2}}}}
+{id_cliente:{"nombre": nombre, "telefono": telefono, "sexo": sexo, tarjetas: {}}}
+
+{"Visa":{1098:{"mes": 11, "año": 2014}, 1097:{"mes": 11, "año": 2014}}}
+
+#Borrar y hacer reportes? - No se especifica que modificar de la tarjeta(Modificar toda)
+#dicc = {"tipo_tarjeta":{id_tarjerta:{"mes": mes, "año": año, "codigo": codigo, "id_cliente": id_cliente}}}
+#dicc_report = {id tarjeta:{"reporte1": reporte, "reporte2": reporte2}}
+#dicc_cliente = {id_cliente:{"nombre": nombre, "telefono": telefono, "sexo": sexo}}
+
+
+MENU
+CLIENTES
+TARJETAS
+INFORMES
+SALIR
