@@ -37,10 +37,10 @@ for nota, nivel1, subllave, nombre in mejores_notas[:5]:
 #-------------------------------------------------------------------------------------------------------------
 # Imprimir las entradas ordenadas para cada llave
 for nivel1, nivel2 in dicc.items():
-    if isinstance(nivel2, dict) and "nombre" in nivel2 and "nota_promedio" in nivel2:
         print(f"Llave: {nivel1}")
         print("-----------------")
         sorted_entries = sorted(nivel2.items(), key=lambda x: x[1]["nota_promedio"], reverse=True)
+        print(sorted_entries)
         for subllave, subvalor in sorted_entries:
             print(f"Subllave: {subllave}")
             print(f"Nombre: {subvalor['nombre']}")

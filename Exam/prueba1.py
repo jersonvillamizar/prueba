@@ -1,4 +1,7 @@
 import json
+import os
+
+os.system("clear")
 
 def validacion_t(msg):
     while True:
