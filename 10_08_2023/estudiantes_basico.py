@@ -1,3 +1,6 @@
+import json 
+import os 
+
 def menu():
     print("\n")
     print(" MENU PRINCIPAL ".center(100," "))
@@ -40,7 +43,23 @@ def validacion(msg):
             print(f"{e}")
             print("-" * 50)
 
+def validacion_f(msg):
+    while True:
+        try:
+            numero = float(input(msg))
+            return numero
+
+        except ValueError:
+            print("-" * 50)
+            print("Solo se permiten numeros enteros o decimales")
+            print("-" * 50)
+        except Exception as e:
+            print("-" * 50)
+            print(f"{e}")
+            print("-" * 50)
+
 def escoger(opcion):
+    
     if opcion == 1:
         print("AGREGAR".center(50,"-"))
         agregar(dicc, ruta)
@@ -55,10 +74,10 @@ def escoger(opcion):
         eliminar(dicc)
     elif opcion == 5:
         print("NOTAS DEFINITIVAS".center(50,"-"))
-        listar(dicc)
+        cal_def(dicc)
     elif opcion == 6:
         print("LISTAR NOTAS".center(50,"-"))
-        listar_nomina(dicc)
+        listar_notas(dicc)
     elif opcion == 7:
         print("¡Hasta luego!".center(50,"-"))
         salir = validacion_t("Presione cualquier tecla para volver al menú o ingrese 'S' para salir: ")
@@ -66,7 +85,6 @@ def escoger(opcion):
             exit()
     else:
         print("Opción inválida. Intente nuevamente.")
-        input("Presione cualquier tecla para continuar")
 
 def agregar(dicc, ruta):    
     id_empleado = validacion("\nIngrese el codigo del estudiante: ")
@@ -78,16 +96,19 @@ def agregar(dicc, ruta):
     dicc[id_empleado] = {}
     dicc[id_empleado]["nombre"] = nombre
     dicc[id_empleado]["notas"] = {}
+    total = 0
     for i in range(1, 4):
         while True:
-            horas = validacion(f"Ingrese la {i}.Nota del estudiante: ")
+            horas = validacion_f(f"Ingrese la {i}.Nota del estudiante: ")
             if horas > 5 or horas < 0:
                 print("-" * 50)
-                print("La nota debe estar entre 1 a 5")
+                print("La nota debe estar entre 0 a 5")
                 print("-" * 50)
             else:
                 break
         dicc[id_empleado]["notas"][i] = horas
+        total += horas
+    dicc[id_empleado]["definitiva"] = total
 
     escribir_en_disco(ruta, dicc)
 
@@ -95,62 +116,60 @@ def agregar(dicc, ruta):
     print("Se realizó el proceso con exito")
     print("-" * 50)
 
-
-def buscar(dicc):    
+def buscar(dicc):   
+    encontrado = False 
     if dicc:
         id_empleado = validacion("\nIngrese el codigo del estudiante a buscar: ")
-        encontrado = False
+        print()
         for empleado in dicc.keys():
             if int(empleado) == id_empleado:
                 encontrado = True
                 nombree = dicc[empleado]["nombre"] 
-                nota1 = dicc[empleado]["notas"][1] 
-                nota2 = dicc[empleado]["notas"][2]
-                nota3 = dicc[empleado]["notas"][3]
+                nota1 = dicc[empleado]["notas"]["1"] 
+                nota2 = dicc[empleado]["notas"]["2"]
+                nota3 = dicc[empleado]["notas"]["3"]
 
-                print("Información del estudiante:")
-                print(f"Codigo:  {empleado}")
-                print(f"Nombre: {nombree}")
-                print(f"Nota 1: {nota1}")
-                print(f"Nota 2: {nota2}")
-                print(f"Nota 3: {nota3}")
-                activador = 1
-                return activador 
+                print("|"+"CODIGO".center(15, " ")+"|"+"NOMBRE".center(15, " ")+"|"+"NOTA 1".center(15, " "),end="|")
+                print("NOTA 2".center(15, " ")+ "|"+"NOTA 3".center(15, " "))
+                print("|"+empleado.center(15, " ")+"|"+nombree.center(15, " ")+"|"+str(nota1).center(15, " "),end="|")
+                print(str(nota2).center(15, " ")+ "|"+str(nota3).center(15, " ")+"|")
+                return id_empleado
         if not encontrado:
             print("No se encontró ningún estudiante con el codigo ingresado.")
+            return encontrado
     else:
         print("No se han ingresado estudiantes.")
+        return encontrado
 
 def modificar(dicc):
     if dicc:
-        id_empleado = validacion("\nIngrese el ID del empleado a modificar: ")
+        id_empleado = validacion("\nIngrese el codigo del estudiante a modificar: ")
         encontrado = False
         for empleado in dicc.keys():
-            if empleado == id_empleado:
+            if int(empleado) == id_empleado:
                 encontrado = True
-                nota1 = dicc[id_empleado]["notas"][1]
-                nota2 = dicc[id_empleado]["notas"][2]
-                nota3 = dicc[id_empleado]["notas"][3]
+                nota1 = dicc[empleado]["notas"]["1"]
+                nota2 = dicc[empleado]["notas"]["2"]
+                nota3 = dicc[empleado]["notas"]["3"]
                 print("Encontrado. Qué desea modificar?")
                 print(f"1:Nombre - 2:Nota {nota1} - 3:Nota {nota2}  - 4:Nota {nota3}  - 5:Todo - 6:Salir")
-
                 seguir = True
                 while seguir == True:
                     opc = int(input("Opcion: "))
                     if opc == 1:
                         nombre = str(input("Ingrese el nuevo nombre: "))
-                        dicc[id_empleado]["nombre"] = nombre 
+                        dicc[empleado]["nombre"] = nombre 
                     elif opc == 2:
                         nota = str(input("Ingrese la nueva nota: "))
-                        dicc[id_empleado]["notas"][1] = nota 
+                        dicc[empleado]["notas"]["1"] = nota 
                     elif opc == 3:
                         nota = str(input("Ingrese la nueva nota: "))
-                        dicc[id_empleado]["notas"][2] = nota 
+                        dicc[empleado]["notas"]["2"] = nota 
                     elif opc == 4:
                         nota = str(input("Ingrese la nueva nota: "))
-                        dicc[id_empleado]["notas"][3] = nota 
+                        dicc[empleado]["notas"]["3"] = nota 
                     elif opc == 5:
-                        dicc.pop(id_empleado)
+                        dicc.pop(empleado)
                         agregar(dicc, ruta)
                     elif opc == 6:
                         return input("Presione cualquier tecla para salir: ")
@@ -159,14 +178,10 @@ def modificar(dicc):
                         input("Presione cualquier tecla para continuar: ")
                         continue
                     seguir = False
-                
-
                 escribir_en_disco(ruta, dicc)
-
                 print("-" * 50)
                 print("Estudiante modificado con éxito.")
-                print("-" * 50)
-                
+                print("-" * 50) 
                 break
         if not encontrado:
             print("-" * 50)
@@ -176,197 +191,64 @@ def modificar(dicc):
 
 def eliminar(dicc):
     if dicc:
-        id_empleado = validacion("\nIngrese el ID del empleado a eliminar: ")
+        id_empleado = validacion("\nIngrese el codigo del estudiante a eliminar: ")
         encontrado = False
         for empleado in dicc.keys():
-            if empleado == id_empleado:
+            if int(empleado) == id_empleado:
                 encontrado = True
                 dicc.pop(empleado)
                 escribir_en_disco(ruta, dicc)
-                print("Empleado eliminado con éxito.")
+                print("Estudiante eliminado con éxito.")
                 break
         if not encontrado:
-            print("No se encontró ningún empleado con el ID ingresado.")
+            print("No se encontró ningún estudiante con el codigo ingresado.")
     else:
-        print("No se han ingresado empleados.")
+        print("No se han ingresado estudiantes.")
 
-def listar(dicc):
-    if dicc:
-        lista = []
-        for l in dicc.keys():
-            lista.append(l)
-        total_empleados = len(dicc)
-        pagina = 1
-        contador = 0
-        continuar = True
-        
-        while continuar:
-            print(f"\n--- Página {pagina} ---")
-            for i in range(contador, contador + 5):
-                if i < total_empleados:
-                    empleado = lista[i]
-                    nombre = dicc[empleado]["nombre"] 
-                    horas = dicc[empleado]["horas"]  
-                    valor = dicc[empleado]["valor"] 
-                    print(f"ID: {empleado}")
-                    print(f"Nombre: {nombre}")
-                    print(f"Horas trabajadas: {horas}")
-                    print(f"Valor de la hora: {valor}")
-                    print("-" * 50)
-                    
-                else:
-                    break
-
-            contador += 5
-            opcion = input("Presione 'Enter' para ver más empleados o ingrese 'M' para volver al menú: ")
-            if opcion.lower() == "m":
-                break
-
-            if contador >= total_empleados:
-                opcion = input("No hay mas empleadospara mostrar. ")
-                break
-
-
-            pagina += 1
+def cal_def(dicc):
+    empleado = buscar(dicc)
+    if empleado == False: 
+        return 
     else:
-        print("No se han ingresado empleados.")
+        empleado = str(empleado)
+        total = dicc[empleado]["definitiva"]
+        return print(f"La nota definitiva del estudiante es: {total}")
 
-def listar_nomina(dicc):
-    if dicc:
-        id_empleado = validacion("\nIngrese el ID del empleado a buscar: ")
-        encontrado = False
-        for empleado in dicc.keys():
-            if empleado == id_empleado:
-                encontrado = True
-                nombree = dicc[empleado]["nombre"] 
-                horas = dicc[empleado]["horas"]  
-                valor = dicc[empleado]["valor"] 
-                print("Información del empleado:")
-                print(f"ID:  {empleado}")
-                print(f"Nombre: {nombree}")
-                print(f"Horas trabajadas: {horas}")
-                print(f"Valor de la hora: {valor}")
-                salario_bruto = dicc[id_empleado]["horas"] * dicc[id_empleado]["valor"] 
-                salario_minimo = 1028545  # Salario mínimo legal vigente en Colombia en 2023
-
-                if salario_bruto < salario_minimo:
-                        transporte = 106454
-                else:
-                    transporte = 0
-                eps = salario_bruto * 0.04
-                pension = salario_bruto * 0.04
-                salario_neto = salario_bruto + transporte - eps - pension
-
-                print("-" * 50)
-                print(f"Salario Bruto: {salario_bruto}")
-                print(f"Subsidio de transporte: {transporte}")
-                print(f"Descuento EPS (4%): {eps:.0f}")
-                print(f"Descuento Pensión (4%): {pension:.0f}")
-                print(f"Salario Neto: {salario_neto:.0f}")
-                
-                return True 
-        if not encontrado:
-            print("No se encontró ningún empleado con el ID ingresado.")
-    else:
-        print("No se han ingresado empleados.")
-               
-def listar_nomina_todos(dicc):
-    if dicc:
-        lista = []
-        for l in dicc.keys():
-            lista.append(l)
-        total_empleados = len(dicc)
-        pagina = 1
-        contador = 0
-        continuar = True
-        
-        while continuar:
-            print(f"\n--- Página {pagina} ---")
-            for i in range(contador, contador + 5):
-                if i < total_empleados:
-                    id_empleado = lista[i]
-                    print("-" * 50)
-                    print("-" * 50)
-                    nombre = dicc[id_empleado]["nombre"] 
-                    horas = dicc[id_empleado]["horas"]  
-                    valor = dicc[id_empleado]["valor"] 
-                    print(f"ID: {id_empleado}")
-                    print(f"Nombre: {nombre}")
-                    print(f"Horas trabajadas: {horas}")
-                    print(f"Valor de la hora: {valor}")
-                    print("-" * 50)
-                    salario_bruto = horas* valor
-                    salario_minimo = 1028545  # Salario mínimo legal vigente en Colombia en 2023
-
-                    if salario_bruto < salario_minimo:
-                            transporte = 106454
-                    else:
-                        transporte = 0
-                    eps = salario_bruto * 0.04
-                    pension = salario_bruto * 0.04
-                    salario_neto = salario_bruto + transporte - eps - pension
-
-                    print(f"Salario Bruto: {salario_bruto}")
-                    print(f"Subsidio de transporte: {transporte}")
-                    print(f"Descuento EPS (4%): {eps:.0f}")
-                    print(f"Descuento Pensión (4%): {pension:.0f}")
-                    print(f"Salario Neto: {salario_neto:.0f}")
-                else:
-                    break
-
-            contador += 5
-
-            opcion = input("\nPresione 'Enter' para ver más empleados o ingrese 'M' para volver al menú: ")
-            if opcion.lower() == "m":
-                break
-
-            if contador >= total_empleados:
-                opcion = input("No hay mas empleadospara mostrar. ")
-                break
-
-            pagina += 1
-
-def cargar_ruta(ruta):
-    with open(ruta, "a+") as archivo:
-        contador = 0
-        dicc ={}
-        archivo.seek(0)
-        for lineas in archivo:
-            contador +=1
-            if contador > 1:
-                lin = lineas.rstrip()
-                lista_disco = lin.split(";")
-                lista_disco[0] = int(lista_disco[0])
-                dicc[lista_disco[0]] = {}
-                dicc[lista_disco[0]]["nombre"] = lista_disco[1]
-                dicc[lista_disco[0]]["horas"] = int(lista_disco[2])
-                dicc[lista_disco[0]]["valor"] = int(lista_disco[3])
-
-    if contador < 2:
-        dicc = {}
-
-    return dicc
+def listar_notas(dicc):
+    print("|"+"CODIGO".center(15, " ")+"|"+"NOMBRE".center(15, " ")+"|"+"NOTA 1".center(15, " "),end="|")
+    print("NOTA 2".center(15, " ")+"|"+"NOTA 3".center(15, " ")+"|"+"NOTA DEFINITIVA".center(15, " ")+"|")
+    
+    for codigos in dicc.keys():
+        nombree = dicc[codigos]["nombre"] 
+        nota1 = dicc[codigos]["notas"]["1"] 
+        nota2 = dicc[codigos]["notas"]["2"]
+        nota3 = dicc[codigos]["notas"]["3"]
+        total = dicc[codigos]["definitiva"]
+        print("|"+codigos.center(15, " ")+"|"+nombree.center(15, " ")+"|"+str(nota1).center(15, " "),end="|")
+        print(str(nota2).center(15, " ")+"|"+str(nota3).center(15, " ")+"|"+str(total).center(15, " ")+"|")
+    
+def cargar_ruta(ruta):    
+    dicc = {}
+    try:
+        with open(ruta, "r") as archivo:
+            dicc = json.load(archivo)
+        return dicc
+    except:
+        with open(ruta, "w") as archivo:
+            return dicc
 
 def escribir_en_disco(ruta, dicc):
     with open(ruta, "w") as archivo:
-        archivo.write("ID;NOMBRE;HORASTRAB;VALHORA")
-
-        for id in dicc.keys():
-            nombre = dicc[id]["nombre"]
-            horas = dicc[id]["horas"]
-            valor = dicc[id]["valor"]
-
-            lista_emple = [str(id), nombre, str(horas), str(valor)]
-            texto_empleados = "\n" + ";".join(lista_emple)
-            archivo.write(texto_empleados)
+        json.dump(dicc, archivo)
+    if not archivo.closed:
+        archivo.close()
 
 #Inicio
-ruta = "C:/Users/Usuario/Desktop/pythonWork/Codigos/emplacme.dat"
+ruta = "./diccionario.json"
 
+os.system('clear')
 while True:
   dicc = cargar_ruta(ruta)
-  activador = 0
-  id_empleado = 0
   input("\nPRESIONE CUALQUIER TECLA PARA CONTINUAR AL PROGRAMA MENU")
   menu()
   escoger(validacion("Opcion 1 a 8: "))

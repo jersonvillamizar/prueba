@@ -131,7 +131,9 @@ def ModificarRegistro():
                     continue
                 input("Modificado. Presione cualquier tecla para continuar: ")
                 break
-            
+        
+        input("No se ha encontrado. Continuar: ")   
+
 def menu():    
     seguir = True
     while seguir:
@@ -154,7 +156,7 @@ def menu():
         if(opcion < 1 or opcion > 6):
             return print('\nEl número debe ser entre 0 y 6\n')
 
-        switch = { 1: ingresarDatos, 2: eliminarRegistro, 3: reportarListado, 4:BuscarRegistro, 5:ModificarRegistro}
+        switch = { 1: ingresarDatos, 2: eliminarRegistro, 3: reportarListado, 4: BuscarRegistro, 5: ModificarRegistro}
         switch[opcion]()
 
 os.system('clear')
