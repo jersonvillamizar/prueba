@@ -12,7 +12,7 @@ with open('15_08_23_review/texto.txt', 'r') as f:
             ventas = {}
             ventas["Apellido"] = linea[0]
             ventas["Id"] = linea[1]
-            ventas["Ventas"] = linea[2:]
+            ventas["Ventas"] = [int(x) for x in linea[2:]]
             dicc["Vendedores"].append(ventas)
     with open('15_08_23_review/vendedores.txt', 'w') as f:
         json.dump(dicc, f)
