@@ -105,7 +105,10 @@ def recorrer(dicc, opciones):
         for llaves in mascotas.keys():
             if llaves == str(opciones):
                 unico.append(mascotas[f"{opciones}"]) 
-    unico = tuple(unico)
+    tupla = set(unico)
+    unico = []
+    for k in tupla:
+        unico.append(k)
     print("\nPuede escoger una de las opciones ya creadas o realizar una nueva: ")
     j = 0
     for i in unico:
